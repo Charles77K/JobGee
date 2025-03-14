@@ -82,7 +82,7 @@ const Navbar = () => {
             })}
           </ul>
           <section className="hidden md:flex items-center gap-5">
-            <Link href={"/login"}>
+            <Link href={"/dashboard"}>
               <Button className="bg-brand-blue text-white dark:text-white hover:scale-x-105 hover:bg-brand-blue cursor-pointer transition-transform">
                 Get Started
               </Button>
