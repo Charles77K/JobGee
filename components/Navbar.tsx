@@ -17,16 +17,18 @@ export const NAV_LINKS = [
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
-  const [isScrolled, setIsScrolled] = React.useState(false);
+  const [isVisible, setIsVisible] = React.useState(true);
+  const lastScrollY = React.useRef<number>(0);
   const pathname = usePathname();
 
   React.useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
+      if (window.scrollY > lastScrollY.current) {
+        setIsVisible(false);
       } else {
-        setIsScrolled(false);
+        setIsVisible(true);
       }
+      lastScrollY.current = window.scrollY;
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -35,8 +37,8 @@ const Navbar = () => {
   return (
     <>
       <div
-        className={`font-poppins fixed top-0 left-0 w-full z-50 px-4 md:px-10 lg:px-32 py-6 drop-shadow-2xl transition-all duration-300 ${
-          isScrolled ? "bg-transparent backdrop-blur-lg" : "bg-opacity-90"
+        className={`font-poppins fixed bg-white dark:bg-black top-0 left-0 w-full z-50 px-4 md:px-10 lg:px-32 py-6 drop-shadow-2xl transition-all duration-300 ${
+          isVisible ? "translate-y-0" : "-translate-y-full"
         }`}
       >
         <nav className="flex items-center justify-between">
