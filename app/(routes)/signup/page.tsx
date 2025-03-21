@@ -2,28 +2,41 @@
 
 import React from "react";
 import LoginBrand from "@/components/LoginBrand";
-
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { SignUpFormType, SignUpSchema } from "@/lib/schema";
+import { SignUpTypeWithConfirm, SignUpSchema } from "@/lib/schema";
 import GoogleSignUp from "@/components/GoogleSignUp";
 import Link from "next/link";
+import { useSignUp } from "@/lib/hooks";
+import { useRouter } from "next/navigation";
+import PasswordInput from "@/components/ui/PasswordInput";
+import { Eye, EyeOff, Lock } from "lucide-react";
 
 function Signup() {
+  const router = useRouter();
+
+  const { mutate, isPending } = useSignUp();
+
   const {
     handleSubmit,
     register,
-    formState: { errors, isSubmitting },
-  } = useForm<SignUpFormType>({
+    formState: { errors },
+  } = useForm<SignUpTypeWithConfirm>({
     resolver: zodResolver(SignUpSchema),
     mode: "onBlur",
   });
 
-  const onSubmit = async (data: SignUpFormType) => {
-    console.log("Signup data:", data);
+  const onSubmit = (data: SignUpTypeWithConfirm) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { confirmPassword, ...userData } = data;
+    mutate(userData, {
+      onSuccess: () => {
+        router.push("/login");
+      },
+    });
   };
 
   return (
@@ -39,6 +52,8 @@ function Signup() {
               Please fill in the form to create an account
             </p>
           </div>
+
+          {/* sign up form */}
           <form
             className="flex flex-col items-start gap-4"
             onSubmit={handleSubmit(onSubmit)}
@@ -48,11 +63,13 @@ function Signup() {
                 <Label>First Name</Label>
                 <Input
                   placeholder="Enter first name"
-                  {...register("firstname")}
+                  {...register("first_name")}
                   type="text"
                 />
-                {errors.firstname && (
-                  <p className="login-form_error">{errors.firstname.message}</p>
+                {errors.first_name && (
+                  <p className="login-form_error">
+                    {errors.first_name.message}
+                  </p>
                 )}
               </div>
 
@@ -60,11 +77,11 @@ function Signup() {
                 <Label>Last Name</Label>
                 <Input
                   placeholder="Enter last name"
-                  {...register("lastname")}
+                  {...register("last_name")}
                   type="text"
                 />
-                {errors.lastname && (
-                  <p className="login-form_error">{errors.lastname.message}</p>
+                {errors.last_name && (
+                  <p className="login-form_error">{errors.last_name.message}</p>
                 )}
               </div>
             </section>
@@ -82,23 +99,42 @@ function Signup() {
 
             <div className="w-full space-y-2">
               <Label>Password</Label>
-              <Input
-                placeholder="Enter password"
+              <PasswordInput
+                icon={<Lock className="w-4 h-4 text-gray-500" />}
+                iconShow={<Eye className="w-4 h-4 text-gray-500" />}
+                iconHide={<EyeOff className="w-4 h-4 text-gray-500" />}
+                placeholder="Enter your password"
                 {...register("password")}
-                type="password"
               />
               {errors.password && (
                 <p className="login-form_error">{errors.password.message}</p>
               )}
             </div>
 
+            <div className="w-full space-y-2">
+              <Label>Confirm Password</Label>
+              <PasswordInput
+                icon={<Lock className="w-4 h-4 text-gray-500" />}
+                iconShow={<Eye className="w-4 h-4 text-gray-500" />}
+                iconHide={<EyeOff className="w-4 h-4 text-gray-500" />}
+                placeholder="confirm your password"
+                {...register("confirmPassword")}
+              />
+              {errors.confirmPassword && (
+                <p className="login-form_error">
+                  {errors.confirmPassword.message}
+                </p>
+              )}
+            </div>
             <Button
-              disabled={isSubmitting}
+              type="submit"
               className="w-full text-white bg-brand-blue hover:bg-brand-blue/80 cursor-pointer"
             >
-              {isSubmitting ? "Loading.." : "Login"}
+              {isPending ? "Loading.." : "SignUp"}
             </Button>
           </form>
+
+          {/* google sign up */}
           <div className="text-center text-sm">
             <p className="text-sm mb-5">OR</p>
             <GoogleSignUp />

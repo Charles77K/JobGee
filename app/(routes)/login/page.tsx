@@ -10,28 +10,50 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import GoogleSignUp from "@/components/GoogleSignUp";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { useLogin } from "@/lib/hooks";
+import { setUser } from "@/store/slices/authSlice";
+import { useRouter } from "next/navigation";
+import { tokenService } from "@/lib/axiosHelper";
+import { Eye, EyeOff, Lock } from "lucide-react";
+import PasswordInput from "@/components/ui/PasswordInput";
+import Spinner from "@/components/ui/Spinner";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
   password: z
     .string()
-    .min(8, { message: "Password must be at least 8 characters" }),
+    .min(5, { message: "Password must be at least 5 characters" }),
 });
 
-type FormData = z.infer<typeof formSchema>;
+export type FormData = z.infer<typeof formSchema>;
 
 function Login() {
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const { mutate, isPending } = useLogin();
+
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    reset,
+    formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
-    mode: "onBlur", // Validate fields when they lose focus
+    mode: "onBlur",
   });
 
   const onSubmit = async (data: FormData) => {
-    console.log("Login data:", data);
+    mutate(data, {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      onSuccess: (data: any) => {
+        router.push("/dashboard");
+        dispatch(setUser(data));
+        tokenService.saveToken(data.access, data.refresh);
+        reset();
+      },
+    });
   };
 
   return (
@@ -66,10 +88,12 @@ function Login() {
 
             <div className="w-full space-y-2">
               <Label>Password</Label>
-              <Input
-                placeholder="Enter password"
+              <PasswordInput
+                icon={<Lock className="w-4 h-4 text-gray-500" />}
+                iconShow={<Eye className="w-4 h-4 text-gray-500" />}
+                iconHide={<EyeOff className="w-4 h-4 text-gray-500" />}
+                placeholder="Enter your password"
                 {...register("password")}
-                type="password"
               />
               {errors.password && (
                 <p className="login-form_error">{errors.password.message}</p>
@@ -77,10 +101,10 @@ function Login() {
             </div>
 
             <Button
-              disabled={isSubmitting}
+              disabled={isPending}
               className="w-full text-white bg-brand-blue hover:bg-brand-blue/80 cursor-pointer"
             >
-              {isSubmitting ? "Loading.." : "Login"}
+              {isPending ? <Spinner size="md" /> : "Login"}
             </Button>
           </form>
           <div className="text-center text-sm">

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-
+import Cookies from "js-cookie";
 export interface ApiResponse<T = any> {
   data: T;
   message?: string;
@@ -16,7 +16,7 @@ export interface ErrorResponse {
 
 const apiClient = axios.create({
   baseURL: "https://somtoandcode.pythonanywhere.com",
-  withCredentials: true,
+  withCredentials: false,
   timeout: 30000, // 30 seconds
   headers: {
     "Content-Type": "application/json",
@@ -66,9 +66,23 @@ apiClient.interceptors.response.use(
   }
 );
 
+export const tokenService = {
+  getAccessToken: (): string | undefined => Cookies.get("token"),
+  refreshToken: (): string | undefined => Cookies.get("refresh"),
+
+  saveToken: (accessToken: string, refreshToken: string): void => {
+    Cookies.set("token", accessToken);
+    Cookies.set("refresh", refreshToken);
+  },
+  clearTokens: (): void => {
+    Cookies.remove("token");
+    Cookies.remove("refresh");
+  },
+};
+
 apiClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const token = tokenService.getAccessToken();
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }

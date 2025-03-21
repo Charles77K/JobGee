@@ -2,12 +2,14 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
+import { tokenService } from "@/lib/axiosHelper";
 
 const initialState = {
   user: null,
   error: null,
-  token: null,
-  isAuthenticated: false,
+  token: tokenService.getAccessToken(),
+  refreshToken: tokenService.refreshToken(),
+  isAuthenticated: !!tokenService.getAccessToken(),
   loading: false,
 };
 
@@ -22,11 +24,12 @@ const authSlice = createSlice({
     setUser: (state, action) => {
       state.loading = false;
       state.user = action.payload.user;
-      state.token = action.payload.token;
-      state.isAuthenticated = true;
+      state.token = action.payload.access;
+      state.refreshToken = action.payload.refresh;
+      state.isAuthenticated = !!state.token;
 
       // Store in localStorage
-      localStorage.setItem("token", action.payload.token);
+      tokenService.saveToken(action.payload.access, action.payload.refresh);
     },
     setError: (state, action) => {
       state.loading = false;
@@ -35,13 +38,13 @@ const authSlice = createSlice({
     clearAuth: (state) => {
       state.user = null;
       state.error = null;
-      state.token = null;
+      state.token = undefined;
+      state.refreshToken = undefined;
       state.isAuthenticated = false;
       state.loading = false;
 
       // Clear localStorage
-      localStorage.removeItem("token");
-      localStorage.removeItem("refreshToken");
+      tokenService.clearTokens();
     },
     updateToken: (state, action) => {
       state.token = action.payload;

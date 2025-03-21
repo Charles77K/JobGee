@@ -7,7 +7,10 @@ import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import MobileNav from "./MobileNav";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { clearAuth, selectIsAuthenticated } from "@/store/slices/authSlice";
+import { Dialog } from "./ui/Dialog";
 
 export const NAV_LINKS = [
   { href: "/features", label: "Features" },
@@ -17,7 +20,10 @@ export const NAV_LINKS = [
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
   const [isVisible, setIsVisible] = React.useState(true);
+  const router = useRouter();
+  const dispatch = useDispatch();
   const lastScrollY = React.useRef<number>(0);
   const pathname = usePathname();
 
@@ -84,11 +90,34 @@ const Navbar = () => {
             })}
           </ul>
           <section className="hidden md:flex items-center gap-5">
-            <Link href={"/dashboard"}>
-              <Button className="bg-brand-blue text-white dark:text-white hover:scale-x-105 hover:bg-brand-blue cursor-pointer transition-transform">
-                Get Started
-              </Button>
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <Link href={"/dashboard"}>
+                  <Button className="text-white dark:text-white bg-brand-blue hover:scale-x-105 hover:bg-brand-blue transition-transform">
+                    My Profile
+                  </Button>
+                </Link>
+                <Dialog
+                  title="Logout"
+                  description="Are you sure you want to logout?"
+                  agree="Logout"
+                  disagree="Cancel"
+                  buttonTitle="Logout"
+                  dialogAction={() => {
+                    router.replace("/login");
+                    dispatch(clearAuth());
+                  }}
+                />
+              </>
+            ) : (
+              <>
+                <Link href={"/dashboard"}>
+                  <Button className="bg-brand-blue text-white dark:text-white hover:scale-x-105 hover:bg-brand-blue cursor-pointer transition-transform">
+                    Get Started
+                  </Button>
+                </Link>
+              </>
+            )}
             <ModeToggle />
           </section>
         </nav>

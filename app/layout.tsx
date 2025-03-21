@@ -6,6 +6,7 @@ import localFont from "next/font/local";
 import Footer from "@/components/Footer";
 import { Toaster } from "sonner";
 import ReduxProvider from "@/providers/ReduxProvider";
+import TanstackProvider from "@/providers/TanstackProvider";
 
 const abeezee = localFont({
   src: [
@@ -83,12 +84,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <ReduxProvider>
-            <Navbar />
-            {children}
-            <Toaster />
-            <Footer />
-          </ReduxProvider>
+          <TanstackProvider>
+            <ReduxProvider>
+              <Navbar />
+              {children}
+              <Toaster />
+              <Footer />
+            </ReduxProvider>
+          </TanstackProvider>
         </ThemeProvider>
       </body>
     </html>
