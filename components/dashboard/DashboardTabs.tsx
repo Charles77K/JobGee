@@ -1,6 +1,9 @@
+"use client";
+
 import React from "react";
 import { FaUser, FaBriefcase, FaFileAlt } from "react-icons/fa";
 import { FaChartLine } from "react-icons/fa6";
+import { motion as m } from "motion/react";
 
 const tabs = [
   {
@@ -36,7 +39,9 @@ const DashboardTabs = ({
     <div className="border-b border-gray-200 dark:border-gray-500">
       <div className="flex flex-wrap items-center -mb-px">
         {tabs.map(({ key, label, icon }) => (
-          <button
+          <m.button
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
             key={key}
             className={`flex items-center px-4 py-4 font-poppins cursor-pointer  text-xs md:text-sm leading-5 font-medium dark:text-white hover:dark:text-white ${
               currentPage === key
@@ -47,7 +52,7 @@ const DashboardTabs = ({
           >
             {icon}
             {label}
-          </button>
+          </m.button>
         ))}
       </div>
     </div>

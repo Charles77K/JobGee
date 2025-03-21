@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import localFont from "next/font/local";
 import Footer from "@/components/Footer";
 import { Toaster } from "sonner";
+import ReduxProvider from "@/providers/ReduxProvider";
 
 const abeezee = localFont({
   src: [
@@ -82,10 +83,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          {children}
-          <Toaster />
-          <Footer />
+          <ReduxProvider>
+            <Navbar />
+            {children}
+            <Toaster />
+            <Footer />
+          </ReduxProvider>
         </ThemeProvider>
       </body>
     </html>

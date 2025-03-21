@@ -23,4 +23,14 @@ export class ShowToast {
       },
     });
   }
+
+  static info(message: string) {
+    return toast.info(message, {
+      position: "top-right",
+      duration: 2000,
+      style: {
+        color: "blue",
+      },
+    });
+  }
 }
