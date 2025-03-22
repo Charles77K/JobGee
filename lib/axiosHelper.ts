@@ -23,7 +23,7 @@ const apiClient = axios.create({
   },
 });
 // error handling with typed error response
-export const handleError = (error: any): ErrorResponse => {
+export const handleError = (error: any) => {
   if (axios.isCancel(error)) {
     console.log("Request canceled:", error.message);
     return {
@@ -33,25 +33,10 @@ export const handleError = (error: any): ErrorResponse => {
     };
   } else if (error.response) {
     console.error("Server error:", error.response.data || error.message);
-    return {
-      message: error.response.data?.message || "Server error occurred",
-      status: error.response.status,
-      success: false,
-    };
   } else if (error.request) {
     console.error("No response received:", error.message);
-    return {
-      message: "No response received from server",
-      status: 0,
-      success: false,
-    };
   } else {
     console.error("Network error:", error.message);
-    return {
-      message: "Network error occurred",
-      status: 0,
-      success: false,
-    };
   }
 };
 
@@ -68,8 +53,8 @@ export const tokenService = {
   refreshToken: (): string | undefined => Cookies.get("refresh"),
 
   saveToken: (accessToken: string, refreshToken: string): void => {
-    Cookies.set("token", accessToken);
-    Cookies.set("refresh", refreshToken);
+    Cookies.set("token", accessToken, { expires: 2 / 24 });
+    Cookies.set("refresh", refreshToken, { expires: 7 });
   },
   clearTokens: (): void => {
     Cookies.remove("token");

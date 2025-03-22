@@ -11,17 +11,16 @@ import React from "react";
 
 const Dashboard = () => {
   const { data } = useFetchProfile();
+  console.log(data);
 
   const [currentPage, setCurrentPage] = React.useState<string>("profile");
 
   const renderPage = () => {
     switch (currentPage) {
       case "profile":
-        return <Profile />;
+        return <Profile user={data!} />;
       case "matches":
         return <JobMatches />;
-      default:
-        return <Profile />;
     }
   };
 

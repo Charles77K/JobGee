@@ -1,8 +1,10 @@
 "use client";
 
+import { IUserProfile } from "@/lib/types";
 import React from "react";
+import ProfileUpdate from "./ProfileUpdate";
 
-const Profile = () => {
+const Profile = ({ user }: { user: IUserProfile }) => {
   return (
     <div className="p-4 grid grid-cols-1 md:grid-cols-3 gap-4 bg-white dark:bg-slate-950">
       {/* Personal Information */}
@@ -19,62 +21,15 @@ const Profile = () => {
               Change Photo
             </button>
           </div>
-          <form>
-            <div className="mb-3">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Full Name
-              </label>
-              <input
-                type="text"
-                defaultValue="John Doe"
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none text-sm focus:ring-brand-blue focus:border-brand-blue dark:bg-slate-800 dark:text-white"
-              />
-            </div>
-            <div className="mb-3">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Email
-              </label>
-              <input
-                type="email"
-                defaultValue="john.doe@example.com"
-                className="w-full  px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none text-sm focus:ring-brand-blue focus:border-brand-blue dark:bg-slate-800 dark:text-white"
-              />
-            </div>
-            <div className="mb-3">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Location
-              </label>
-              <input
-                type="text"
-                defaultValue="New York, NY"
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none text-sm focus:ring-brand-blue focus:border-brand-blue dark:bg-slate-800 dark:text-white"
-              />
-            </div>
-            <div className="mb-3">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Phone Number
-              </label>
-              <input
-                type="tel"
-                defaultValue="(555) 123-4567"
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none text-sm focus:ring-brand-blue focus:border-brand-blue dark:bg-slate-800 dark:text-white"
-              />
-            </div>
-            <button
-              type="button"
-              className="w-full mt-2 px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-brand-blue hover:bg-brand-blue/90 focus:outline-none"
-            >
-              Save Changes
-            </button>
-          </form>
+          <ProfileUpdate user={user} />
         </div>
       </div>
 
-      {/* Resume and Skills Section */}
+      {/* about_me and Skills Section */}
       <div className="col-span-2">
         <div className="bg-white dark:bg-slate-950 p-2 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 mb-6">
           <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
-            Upload Resume
+            Upload about_me
           </h3>
           <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center">
             <svg
@@ -91,18 +46,18 @@ const Profile = () => {
               ></path>
             </svg>
             <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
-              Drag and drop your resume here, or{" "}
+              Drag and drop your about_me here, or{" "}
               <span className="text-brand-blue font-medium">browse</span>
             </p>
             <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
               Supported formats: PDF, DOCX, DOC (Max 5MB)
             </p>
-            <input type="file" className="hidden" id="resume-upload" />
+            <input type="file" className="hidden" id="about_me-upload" />
             <button
               type="button"
               className="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-brand-blue hover:bg-brand-blue/90 focus:outline-none"
             >
-              <i className="fas fa-upload mr-2"></i> Upload Resume
+              <i className="fas fa-upload mr-2"></i> Upload about_me
             </button>
           </div>
           <div className="mt-4 flex items-center">
@@ -114,7 +69,7 @@ const Profile = () => {
             type="button"
             className="mt-4 w-full inline-flex justify-center items-center px-4 py-2 border border-gray-300 dark:border-gray-600 shadow-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-slate-700 focus:outline-none text-sm"
           >
-            <i className="fas fa-pencil-alt mr-2"></i> Write/Edit Resume Text
+            <i className="fas fa-pencil-alt mr-2"></i> Write/Edit about_me Text
           </button>
         </div>
 
@@ -182,7 +137,7 @@ const Profile = () => {
           </div>
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Location Preferences
+              about_me Preferences
             </label>
             <div className="flex items-center mb-2">
               <input
@@ -202,7 +157,7 @@ const Profile = () => {
               <option>New York, NY</option>
               <option>San Francisco, CA</option>
               <option>Austin, TX</option>
-              <option>+ Add Location</option>
+              <option>+ Add about_me</option>
             </select>
           </div>
           <div className="mb-4">
