@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { ModeToggle } from "./ui/Toggle";
 import { Button } from "./ui/button";
@@ -26,6 +26,13 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const lastScrollY = React.useRef<number>(0);
   const pathname = usePathname();
+
+  // Add this to prevent hydration mismatch
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -90,33 +97,42 @@ const Navbar = () => {
             })}
           </ul>
           <section className="hidden md:flex items-center gap-5">
-            {isAuthenticated ? (
-              <>
-                <Link href={"/dashboard"}>
-                  <Button className="text-white dark:text-white bg-brand-blue hover:scale-x-105 hover:bg-brand-blue transition-transform">
-                    My Profile
+            {/* Only render auth-dependent content after mounting */}
+            {mounted ? (
+              isAuthenticated ? (
+                <>
+                  <Button
+                    asChild
+                    className="text-white dark:text-white bg-brand-blue hover:scale-x-105 hover:bg-brand-blue transition-transform"
+                  >
+                    <Link href={"/dashboard"}>Dashboard</Link>
                   </Button>
-                </Link>
-                <Dialog
-                  title="Logout"
-                  description="Are you sure you want to logout?"
-                  agree="Logout"
-                  disagree="Cancel"
-                  buttonTitle="Logout"
-                  dialogAction={() => {
-                    router.replace("/login");
-                    dispatch(clearAuth());
-                  }}
-                />
-              </>
+                  <Dialog
+                    title="Logout"
+                    description="Are you sure you want to logout?"
+                    agree="Logout"
+                    disagree="Cancel"
+                    buttonTitle="Logout"
+                    dialogAction={() => {
+                      router.replace("/login");
+                      dispatch(clearAuth());
+                    }}
+                  />
+                </>
+              ) : (
+                <>
+                  <Link href={"/dashboard"}>
+                    <Button className="bg-brand-blue text-white dark:text-white hover:scale-x-105 hover:bg-brand-blue cursor-pointer transition-transform">
+                      Get Started
+                    </Button>
+                  </Link>
+                </>
+              )
             ) : (
-              <>
-                <Link href={"/dashboard"}>
-                  <Button className="bg-brand-blue text-white dark:text-white hover:scale-x-105 hover:bg-brand-blue cursor-pointer transition-transform">
-                    Get Started
-                  </Button>
-                </Link>
-              </>
+              // Show a placeholder button during server-side rendering
+              <div className="bg-brand-blue text-white dark:text-white px-4 py-2 rounded-md">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </div>
             )}
             <ModeToggle />
           </section>

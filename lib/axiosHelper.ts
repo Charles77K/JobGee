@@ -5,7 +5,7 @@ export interface ApiResponse<T = any> {
   data: T;
   message?: string;
   status: number;
-  success: boolean;
+  statusText: boolean;
 }
 
 export interface ErrorResponse {
@@ -22,17 +22,16 @@ const apiClient = axios.create({
     "Content-Type": "application/json",
   },
 });
-// Improved error handling with typed error response
+// error handling with typed error response
 export const handleError = (error: any): ErrorResponse => {
   if (axios.isCancel(error)) {
     console.log("Request canceled:", error.message);
     return {
       message: `Request canceled: ${error.message}`,
-      status: 499, // Client Closed Request
+      status: 499,
       success: false,
     };
   } else if (error.response) {
-    // Server responded with a status other than 200 range
     console.error("Server error:", error.response.data || error.message);
     return {
       message: error.response.data?.message || "Server error occurred",
@@ -40,7 +39,6 @@ export const handleError = (error: any): ErrorResponse => {
       success: false,
     };
   } else if (error.request) {
-    // Request was made but no response received
     console.error("No response received:", error.message);
     return {
       message: "No response received from server",
@@ -48,7 +46,6 @@ export const handleError = (error: any): ErrorResponse => {
       success: false,
     };
   } else {
-    // Something happened in setting up the request
     console.error("Network error:", error.message);
     return {
       message: "Network error occurred",
@@ -92,12 +89,12 @@ apiClient.interceptors.request.use(
 );
 
 //get data
-export const getData = async <T = any>(
+export const getData = async <T>(
   endpoint: string,
   options: AxiosRequestConfig = {}
-): Promise<ApiResponse<T>> => {
+): Promise<T> => {
   try {
-    const response = await apiClient.get<ApiResponse<T>>(endpoint, options);
+    const response = await apiClient.get<T>(endpoint, options);
     return response.data;
   } catch (error) {
     throw handleError(error);

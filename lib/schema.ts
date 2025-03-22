@@ -29,3 +29,12 @@ export type SignUpTypeWithoutConfirm = Omit<
   z.infer<typeof SignUpSchema>,
   "confirmPassword"
 >;
+
+export const formSchema = z.object({
+  email: z.string().email({ message: "Invalid email address" }),
+  password: z
+    .string()
+    .min(5, { message: "Password must be at least 5 characters" }),
+});
+
+export type FormData = z.infer<typeof formSchema>;

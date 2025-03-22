@@ -3,7 +3,7 @@ import { FOOTER_LINKS } from "./static";
 import Link from "next/link";
 
 const Footer = () => (
-  <div className="bg-slate-900 dark:bg-slate-900/50 p-4 py-14 sm:px-6 md:px-10 lg:px-32">
+  <footer className="bg-slate-900 dark:bg-slate-900/50 p-4 py-14 sm:px-6 md:px-10 lg:px-32">
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4😜 md:grid-cols-4 items-start">
       <section className="flex flex-col items-start gap-5">
         <h1 className="header text-white md:text-xl">JobGee</h1>
@@ -55,7 +55,7 @@ const Footer = () => (
         © {new Date().getFullYear()} JobGee. All rights reserved
       </p>
     </section>
-  </div>
+  </footer>
 );
 
 export default Footer;

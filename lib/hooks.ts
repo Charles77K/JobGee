@@ -1,10 +1,10 @@
 "use client";
 
-import { QueryClient, useMutation } from "@tanstack/react-query";
-import { postData } from "./axiosHelper";
+import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { getData, postData } from "./axiosHelper";
 import { ShowToast } from "./toast";
-import { SignUpTypeWithoutConfirm } from "./schema";
-import { FormData } from "@/app/(routes)/login/page";
+import { FormData, SignUpTypeWithoutConfirm } from "./schema";
+import { IUserProfile } from "./types";
 
 const queryClient = new QueryClient();
 
@@ -40,5 +40,13 @@ export const useLogin = () => {
       ShowToast.error(`error: ${err.message}`);
       console.log(err);
     },
+  });
+};
+
+export const useFetchProfile = () => {
+  return useQuery({
+    queryKey: ["profile"],
+    queryFn: () => getData<IUserProfile>("/profile/"),
+    staleTime: 1000 * 60 * 10, // 5 minutes
   });
 };
