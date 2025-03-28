@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Jobgee - AI-Powered Job Matching Application
 
-## Getting Started
+## 🚀 Overview
 
-First, run the development server:
+Jobgee leverages **Artificial Intelligence** to match your skills with the perfect job opportunities and generate tailored resumes and cover letters. Whether you're a fresh graduate or an experienced professional, our AI-driven platform ensures that you get the best job matches with optimized application materials.
+
+## 🛠️ Technologies Used
+
+- **Next.js** - React framework for server-side rendering and performance optimization
+- **Axios** - HTTP client for handling API requests
+- **Zod** - Schema validation for form inputs and API responses
+- **Tailwind CSS** - Utility-first CSS framework for responsive and customizable UI
+- **Redux** - State management for efficient data handling
+- **ShadCN** - Pre-styled UI components for a modern design system
+- **Framer Motion** - Animations and interactive UI elements
+- **ESLint** - Linting tool to enforce code quality and best practices
+- **TypeScript** - Strongly typed JavaScript for better maintainability and scalability
+
+## 📌 Features
+
+- ✨ **AI Job Matching** - Input your skills, experience, and preferences to receive personalized job recommendations
+- 📄 **Resume & Cover Letter Generator** - Get AI-generated, tailored resumes and cover letters for job applications
+- 🔍 **Job Search & Filtering** - Browse job listings with smart filters based on AI suggestions
+- 🎨 **Modern UI & Animations** - A sleek and user-friendly interface with smooth animations
+- 🔒 **Secure & Fast** - Built with Next.js for performance and security optimization
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Ensure you have the following installed:
+
+- **Node.js** (Latest LTS version recommended)
+- **npm**
+
+### Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Clone the repository
+git clone https://github.com/Charles77K/jobgee.git
+cd JobGee
+
+# Install dependencies
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Running the Application
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Start the development server
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Visit `http://localhost:3000` in your browser to access the application.
 
-## Learn More
+## 📜 Usage Guide
 
-To learn more about Next.js, take a look at the following resources:
+1. **Sign Up/Login** to create an account.
+2. **Enter Your Personal Information, Skills & Experience** to get AI-generated job recommendations.
+3. **Customize & Generate** your resume and cover letter.
+4. **Apply for Jobs** directly through the platform.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🤝 Contributing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Contributions are welcome! Feel free to open an issue or submit a pull request.
 
-## Deploy on Vercel
+## 📜 License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This project is licensed under the **MIT License**.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+Made with ❤️ using AI & Next.js.
