@@ -1,13 +1,15 @@
-import { IUserProfile } from "@/lib/types";
+import { selectUser } from "@/store/slices/authSlice";
 import React from "react";
+import { useSelector } from "react-redux";
 
-const DashboardHeader = ({ userData }: { userData: IUserProfile }) => {
+const DashboardHeader = () => {
+  const user = useSelector(selectUser);
   return (
     <div className="bg-white dark:bg-slate-900/50 rounded-lg p-6 mb-6">
       <div className="flex flex-col gap-2 md:flex-row justify-between items-center">
         <header className="flex flex-col  items-start space-x-2">
           <h1 className="text-xl header md:text-2xl text-black dark:text-white">
-            Welcome {userData?.first_name} {userData?.last_name}
+            Welcome {user.firstname} {user.lastname}
           </h1>
           <p className="text-base text-brand-grey dark:text-white/60">
             Find, match, and apply to your perfect job

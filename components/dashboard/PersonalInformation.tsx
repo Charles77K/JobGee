@@ -10,17 +10,17 @@ interface ProfileUpdateProps {
 interface FormData {
   fullname: string;
   email: string;
-  about_me: string;
-  phone_no: number | undefined;
+  location: string;
+  phone_no: number | undefined| string;
 }
 
-const ProfileUpdate: React.FC<ProfileUpdateProps> = ({ user }) => {
+const PersonalInformation: React.FC<ProfileUpdateProps> = ({ user }) => {
   const { mutate, isPending } = useUpdateProfile();
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     fullname: "",
     email: "",
-    about_me: "",
+    location: "",
     phone_no: undefined,
   });
 
@@ -29,8 +29,8 @@ const ProfileUpdate: React.FC<ProfileUpdateProps> = ({ user }) => {
       setFormData({
         fullname: `${user.first_name || ""} ${user.last_name || ""}`.trim(),
         email: user.email || "",
-        about_me: user.about_me || "",
-        phone_no: user.phone_no,
+        location: user.location || "",
+        phone_no: user.phone_no || 'xx-xxx-xxx',
       });
     }
   }, [user]);
@@ -39,14 +39,14 @@ const ProfileUpdate: React.FC<ProfileUpdateProps> = ({ user }) => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
 
-    if (name === "phone_no") {
-      // Convert to number or undefined if empty
-      const numValue = value === "" ? undefined : Number(value);
-      setFormData({ ...formData, [name]: numValue });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
+    // if (name === "phone_no") {
+    //   // Convert to number or undefined if empty
+    //   const numValue = value === "" ? undefined : Number(value);
+    //   setFormData({ ...formData, [name]: numValue });
+    // } else {
+    // }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -65,7 +65,7 @@ const ProfileUpdate: React.FC<ProfileUpdateProps> = ({ user }) => {
       setFormData({
         fullname: `${user.first_name || ""} ${user.last_name || ""}`.trim(),
         email: user.email || "",
-        about_me: user.about_me || "",
+        location: user.location || "",
         phone_no: user.phone_no,
       });
     }
@@ -119,18 +119,17 @@ const ProfileUpdate: React.FC<ProfileUpdateProps> = ({ user }) => {
 
       <div>
         <label
-          htmlFor="about_me"
+          htmlFor="location"
           className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
         >
-          About Me
+          Location
         </label>
-        <textarea
-          id="about_me"
-          name="about_me"
-          value={formData.about_me}
+        <input
+          id="location"
+          name="location"
+          value={formData.location}
           onChange={handleChange}
           readOnly={!editMode}
-          rows={3}
           className={`w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none text-sm ${
             editMode
               ? "focus:ring-brand-blue focus:border-brand-blue"
@@ -193,4 +192,4 @@ const ProfileUpdate: React.FC<ProfileUpdateProps> = ({ user }) => {
   );
 };
 
-export default ProfileUpdate;
+export default PersonalInformation;

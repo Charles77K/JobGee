@@ -2,7 +2,8 @@
 
 import { IUserProfile } from "@/lib/types";
 import React from "react";
-import ProfileUpdate from "./ProfileUpdate";
+import PersonalInformation from "./PersonalInformation";
+import AboutMe from "./AboutMe";
 
 const Profile = ({ user }: { user: IUserProfile }) => {
   return (
@@ -21,57 +22,15 @@ const Profile = ({ user }: { user: IUserProfile }) => {
               Change Photo
             </button>
           </div>
-          <ProfileUpdate user={user} />
+          <PersonalInformation user={user} />
         </div>
       </div>
 
       {/* about_me and Skills Section */}
       <div className="col-span-2">
-        <div className="bg-white dark:bg-slate-950 p-2 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 mb-6">
-          <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
-            Upload about_me
-          </h3>
-          <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center">
-            <svg
-              className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-              ></path>
-            </svg>
-            <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
-              Drag and drop your about_me here, or{" "}
-              <span className="text-brand-blue font-medium">browse</span>
-            </p>
-            <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-              Supported formats: PDF, DOCX, DOC (Max 5MB)
-            </p>
-            <input type="file" className="hidden" id="about_me-upload" />
-            <button
-              type="button"
-              className="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-brand-blue hover:bg-brand-blue/90 focus:outline-none"
-            >
-              <i className="fas fa-upload mr-2"></i> Upload about_me
-            </button>
-          </div>
-          <div className="mt-4 flex items-center">
-            <div className="flex-1 h-0.5 bg-gray-200 dark:bg-gray-700"></div>
-            <p className="mx-4 text-gray-500 dark:text-gray-400 text-sm">or</p>
-            <div className="flex-1 h-0.5 bg-gray-200 dark:bg-gray-700"></div>
-          </div>
-          <button
-            type="button"
-            className="mt-4 w-full inline-flex justify-center items-center px-4 py-2 border border-gray-300 dark:border-gray-600 shadow-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-slate-700 focus:outline-none text-sm"
-          >
-            <i className="fas fa-pencil-alt mr-2"></i> Write/Edit about_me Text
-          </button>
-        </div>
+        <>
+          <AboutMe user={user} />
+        </>
 
         {/* skills and job preferences */}
         <div className="bg-white dark:bg-slate-950 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">

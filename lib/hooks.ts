@@ -1,14 +1,15 @@
 "use client";
 
-import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import { getData, patchData, postData } from "./axiosHelper";
 import { ShowToast } from "./toast";
 import { FormData, SignUpTypeWithoutConfirm } from "./schema";
-import { IUserProfile } from "./types";
+import {IJobSearch, IUserProfile} from "./types";
 
-const queryClient = new QueryClient();
+
 
 export const useSignUp = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["sign-up"],
     mutationFn: (data: SignUpTypeWithoutConfirm) =>
@@ -27,12 +28,13 @@ export const useSignUp = () => {
 };
 
 export const useLogin = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["login"],
     mutationFn: (data: FormData) => postData<FormData>("/login/", data),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["login"],
+        queryKey: ["profile"],
       });
       ShowToast.success("Login Success");
     },
@@ -52,6 +54,7 @@ export const useFetchProfile = () => {
 };
 
 export const useUpdateProfile = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["update-profile"],
     mutationFn: (data: unknown) => patchData("/profile/update/", data),
@@ -67,3 +70,19 @@ export const useUpdateProfile = () => {
     },
   });
 };
+
+export const useJobSearch = ()=>{
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ["job-search"],
+    mutationFn: (data:IJobSearch)=>postData("/job-search/", data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["job-search"],
+      })
+    },
+    onError: (err) => {
+      ShowToast.error(`error: ${err.message}`);
+    }
+  })
+}

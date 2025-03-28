@@ -11,7 +11,6 @@ import React from "react";
 
 const Dashboard = () => {
   const { data } = useFetchProfile();
-  console.log(data);
 
   const [currentPage, setCurrentPage] = React.useState<string>("profile");
 
@@ -29,7 +28,7 @@ const Dashboard = () => {
       {/* Main content */}
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 pt-24 p-4">
         {/* Dashboard Header */}
-        <DashboardHeader userData={data!} />
+        <DashboardHeader />
 
         {/* Dashboard body */}
         <div className="bg-white dark:bg-slate-950 shadow rounded-lg">

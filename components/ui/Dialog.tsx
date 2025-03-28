@@ -42,7 +42,12 @@ export function Dialog({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>{disagree}</AlertDialogCancel>
-          <AlertDialogAction onClick={dialogAction}>{agree}</AlertDialogAction>
+          <AlertDialogAction
+            className="bg-brand-blue text-white"
+            onClick={dialogAction}
+          >
+            {agree}
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

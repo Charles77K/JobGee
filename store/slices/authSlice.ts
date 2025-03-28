@@ -1,11 +1,14 @@
 "use client";
 
 import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../store";
 import { tokenService } from "@/lib/axiosHelper";
+import { RootState } from "../store";
 
 const initialState = {
-  user: null,
+  user: {
+    firstname: "",
+    lastname: "",
+  },
   error: null,
   token: tokenService.getAccessToken(),
   refreshToken: tokenService.refreshToken(),
@@ -23,7 +26,8 @@ const authSlice = createSlice({
     },
     setUser: (state, action) => {
       state.loading = false;
-      state.user = action.payload.user;
+      state.user.firstname = action.payload.first_name;
+      state.user.lastname = action.payload.last_name;
       state.token = action.payload.access;
       state.refreshToken = action.payload.refresh;
       state.isAuthenticated = !!state.token;
@@ -36,7 +40,8 @@ const authSlice = createSlice({
       state.error = action.payload;
     },
     clearAuth: (state) => {
-      state.user = null;
+      state.user.firstname = "";
+      state.user.lastname = "";
       state.error = null;
       state.token = undefined;
       state.refreshToken = undefined;
