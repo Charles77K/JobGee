@@ -37,7 +37,7 @@ Ensure you have the following installed:
 
 ```bash
 # Clone the repository
-git clone https://github.com/Charles77K/jobgee.git
+git clone https://github.com/Charles77K/JobGee
 cd JobGee
 
 # Install dependencies
